@@ -1,0 +1,15 @@
+{
+  "name": "shortner",
+  "version": "1.0.0",
+  "description": "Shinchans version of URL shortner",
+  "main": "app.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [
+    "url",
+    "shortner"
+  ],
+  "author": "lokesh",
+  "license": "ISC"
+}
