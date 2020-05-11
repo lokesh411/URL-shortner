@@ -1,2 +1,2 @@
 # URL-shortner
-URL shortner service
+URL shortner backend service
