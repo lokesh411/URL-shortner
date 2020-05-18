@@ -1,6 +1,5 @@
 const { url } = require('./connection');
 const { Model, Sequelize } = require('sequelize');
-const {urlShortner} = require('./shortner')
 
 class Url extends Model { };
 
@@ -11,24 +10,27 @@ Url.init({
     createdAt: { type: Sequelize.DATE, default: Sequelize.NOW }
 },
     {
-        indexes: [{ unique: true, fields: ['shortUrl, originalUrl'] }], sequelize: url, modelName: 'urls'
+        indexes: [{ unique: true, fields: ['shortUrl', 'originalUrl'] }], sequelize: url, modelName: 'urls'
     }
 )
 
-const getShortenURL = (originalUrl) => {
-    Url.findOne({ where: { originalUrl } }).then((result) => {
-        if (!result) {
-
-        } else {
-            return Promise.resolve(result.shortUrl)
-        }
-    })
+const getShortenURL = async (originalUrl) => {
+    const result = await Url.findOne({ where: { originalUrl } })
+    console.log('result ::: ', result)
+    if (!result) {
+        const record = await Url.create({
+            originalUrl,
+            shortUrl: Date.now()
+        })
+        return Promise.resolve(record.shortUrl)
+    } else {
+        return Promise.resolve(result.shortUrl)
+    }
 }
 
 const getLongURL = shortUrl => {
-    return Url.findOne({ where: { shortUrl } })
+    return Url.findOne({ where: { id: shortUrl } })
 }
-// })
 
 module.exports = {
     Url,
