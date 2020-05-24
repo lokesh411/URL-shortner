@@ -1,8 +1,8 @@
-const Redis = require('ioredis');;
+const Redis = require('ioredis');
 
 const redis = new Redis({
     port: 6379,
-    host: "127.0.0.1"
+    host: process.env.REDIS_URL
 })
 
 const redisGet = (key) => {
@@ -10,11 +10,11 @@ const redisGet = (key) => {
 }
 
 const redisSet = (key, value, expiry) => {
-    redis.set(key, value, expiry || 86400)
+    return redis.set(key, value,'EX', expiry || 86400)
 }
 
 const redisDel = (key) => {
-    redis.del(key)
+    return redis.del(key)
 }
 
 redis.on('connect', () => {

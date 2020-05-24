@@ -29,7 +29,7 @@ const getShortenURL = async (originalUrl) => {
 }
 
 const getLongURL = shortUrl => {
-    return Url.findOne({ where: { id: shortUrl } })
+    return Url.findOne({ where: { shortUrl } })
 }
 
 module.exports = {

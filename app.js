@@ -23,7 +23,7 @@ const corsOptions = {
 
 app.use((req, res, next) => {
     var origin = req.headers.origin;
-    res.setHeader('Access-Control-Allow-Origin', origin);
+    // res.setHeader('Access-Control-Allow-Origin', origin);
     res.publish = (success, message, data, status) => {
         res.status(status || 200).json({ success, message: message || 'Success message', data: data || {} })
     }
@@ -38,5 +38,9 @@ app.use('/test', (req, res) => {
 
 app.use('/user', user);
 app.use('/url', urlRouter);
+let port = process.env.PORT;
+if (!port) {
+    port = 7000;
+}
 
-app.listen(5000, () => { console.log('Serving at 5000') })
+app.listen(port, () => { console.log(`Serving at ${port}`) })

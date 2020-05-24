@@ -22,11 +22,10 @@ router.post('/login', async (req, res) => {
             return res.status(400).send({ success: false, message: 'Password doesnt exist' })
         }
         const token = jwt.sign({ id: fetchedUser.id }, process.env.secretToken)
-        redisSet(`session:${token}`, JSON.stringify(fetchedUser), 900)
+        await redisSet(`session:${token}`, JSON.stringify(fetchedUser), 900)
         return res.cookie('auth_token', token, {
             httpOnly: true,
-            secure: true
-        }).send({ success: true, token }).redirect(`${process.env.APP_URL}/home`)
+        }).publish(true, 'Success', {data: token})
     } catch (e) {
         console.log('ERROR in login route::: ', e)
         return res.status(400).send({ success: false })
